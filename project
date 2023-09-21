@@ -1,0 +1,25 @@
+from textblob import TextBlob
+from dataclasses import dataclass
+
+@dataclass
+class Mood:
+    emoji: str
+    sentiment: float
+
+def get_mood(input_text: str, *, threshold: float) -> Mood:
+    sentiment_value = TextBlob(input_text).sentiment.polarity
+    good: float = threshold
+    bad: float = -threshold
+
+    if sentiment_value >= threshold:
+        return Mood('😊', sentiment_value)
+    elif sentiment_value <= -threshold:
+        return Mood('😠', sentiment_value)
+    else:
+        return Mood('😑', sentiment_value)
+
+if __name__ == '__main__':
+    while True:
+        text = input('Text: ')
+        res = get_mood(text, threshold=0.3)
+        print(f'{res.emoji} ({res.sentiment})')from textblob import TextBlob
